@@ -6,7 +6,7 @@ Fazer planejamento de estruturas informacionais para comportar dados oriundos de
 
 ## Requisitos Funcionais
 
-[x] 1. Armazenar todas as variações de jogos possíveis;
+[] 1. Armazenar todas as variações de jogos possíveis;
 
 [] 2. Armazenar informações a cerca do bilhete de apostas;
 
@@ -20,13 +20,13 @@ Fazer planejamento de estruturas informacionais para comportar dados oriundos de
 
 ## Regras de Negócio
 
-[x] 1. Todo jogo deve ter 1 variação de aposta
+[] 1. Todo jogo deve ter 1 variação de aposta
 
-[x] 2. Cada variação de aposta deve ser constituída por 5 dezenas
+[] 2. Cada variação de aposta deve ser constituída por 5 dezenas
 
-[x] 3. As dezenas são variações numéricas de 0 a 99
+[] 3. As dezenas são variações numéricas de 0 a 99
 
-[x] 4. As combinações de jogos não podem ser repetidas
+[] 4. As combinações de jogos não podem ser repetidas
 
 [] 5. Todo bilhete deve estar vinculado a 22 jogos.
 
