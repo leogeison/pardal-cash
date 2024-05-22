@@ -16,7 +16,7 @@ datasource db {
   drawnNumbers   Int[]
   tickets        Ticket[]
   winningGames   WinningGame[]
-  betVariations  BetVariation[]
+
 }
 
 model Ticket {
@@ -29,6 +29,8 @@ model Ticket {
   game           Game       @relation(fields: [gameId], references: [id])
   player         Player     @relation(fields: [playerId], references: [id])
   payments       Payment[]
+  betVariations  BetVariation[]
+  
 }
 
 model Player {
@@ -66,11 +68,10 @@ model Token {
 }
 
 model BetVariation {
-  id      Int     @id @default(autoincrement())
-  gameId  Int
+  id      Int      @id @default(autoincrement())
   numbers Int[]    @map("numbers")
-
-  game    Game    @relation(fields: [gameId], references: [id])
+  ticketId Int
+  ticket  Ticket   @relation(fields: [ticketId], references: [id])
 }
 
 
