@@ -29,7 +29,7 @@ model Ticket {
   game           Game       @relation(fields: [gameId], references: [id])
   player         Player     @relation(fields: [playerId], references: [id])
   payments       Payment[]
-  betVariations  BetVariation[]
+  
   
 }
 
@@ -70,8 +70,7 @@ model Token {
 model BetVariation {
   id      Int      @id @default(autoincrement())
   numbers Int[]    @map("numbers")
-  ticketId Int
-  ticket  Ticket   @relation(fields: [ticketId], references: [id])
+  
 }
 
 
