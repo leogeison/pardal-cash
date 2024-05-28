@@ -6,7 +6,7 @@ Fazer planejamento de estruturas informacionais para comportar dados oriundos de
 
 ## Requisitos Funcionais
 
-[] 1. Armazenar todas as variações de jogos possíveis;
+[x] 1. Armazenar todas as variações de jogos possíveis;
 
 [] 2. Armazenar informações a cerca do bilhete de apostas;
 

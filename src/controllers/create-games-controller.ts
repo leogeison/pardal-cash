@@ -14,15 +14,15 @@ const createGameBodySchema = z.object({
   drawNumbers: z.array(z.number()),
 })
 
-type createGameBodySchema = z.infer<typeof createGameBodySchema>
+type CreateGameBodySchema = z.infer<typeof createGameBodySchema>
 
-@Controller('/games')
+@Controller('games')
 export class CreateGameController {
   constructor(private prisma: PrismaService) {}
 
   @Post()
   @HttpCode(201)
-  async createGame(@Body() body: createGameBodySchema) {
+  async createGame(@Body() body: CreateGameBodySchema) {
     try {
       const { success, error } = createGameBodySchema.safeParse(body)
       if (!success) {
@@ -37,6 +37,7 @@ export class CreateGameController {
       })
       return { game, message: 'Jogo criado com sucesso' }
     } catch (error) {
+      console.error(error)
       throw new BadRequestException('Falha ao criar o jogo')
     }
   }
