@@ -4,8 +4,10 @@ import {
   Controller,
   Get,
   HttpCode,
-  Post
+  Post,
+  UsePipes
 } from '@nestjs/common';
+import { ZodValidationPipe } from 'src/pipes/zod-validation-pipes';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { z } from 'zod';
 
@@ -22,12 +24,9 @@ export class CreateGameController {
 
   @Post()
   @HttpCode(201)
+  @UsePipes(new ZodValidationPipe(createGameBodySchema))
   async createGame(@Body() body: CreateGameBodySchema) {
     try {
-      const { success, error } = createGameBodySchema.safeParse(body);
-      if (!success) {
-        throw new BadRequestException(error.format());
-      }
       const { drawDate /* , drawNumbers */ } = body;
       const game = await this.prisma.game.create({
         data: {
