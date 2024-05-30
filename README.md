@@ -10,7 +10,7 @@ Fazer planejamento de estruturas informacionais para comportar dados oriundos de
 
 [] 2. Armazenar informações a cerca do bilhete de apostas;
 
-[] 3. Armazenar dados do jogador
+[x] 3. Armazenar dados do jogador
 
 [] 4. Armazenar dados dos resultados dos jogos premiados
 

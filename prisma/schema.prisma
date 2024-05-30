@@ -13,7 +13,6 @@ datasource db {
   model Game {
   id             Int        @id @default(autoincrement())
   drawDate       DateTime
-  drawnNumbers   Int[]
   tickets        Ticket[]
   winningGames   WinningGame[]
 
@@ -37,8 +36,8 @@ model Player {
   id             Int        @id @default(autoincrement())
   name           String
   birthDate      DateTime
-  cpf            String
-  email          String
+  cpf            String @unique
+  email          String @unique
   tickets        Ticket[]
   tokens         Token[]
 }
@@ -69,7 +68,7 @@ model Token {
 
 model BetVariation {
   id      Int      @id @default(autoincrement())
-  numbers Int[]    @map("numbers")
+  numbers Int[]    @unique
   
 }
 

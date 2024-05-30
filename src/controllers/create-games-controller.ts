@@ -4,17 +4,17 @@ import {
   Controller,
   Get,
   HttpCode,
-  Post,
-} from '@nestjs/common'
-import { PrismaService } from 'src/prisma/prisma.service'
-import { z } from 'zod'
+  Post
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { z } from 'zod';
 
 const createGameBodySchema = z.object({
-  drawDate: z.string().transform((str) => new Date(str)), // validar string e transformar em date
-  drawNumbers: z.array(z.number()),
-})
+  drawDate: z.string() // validar string 
+  /* drawNumbers: z.array(z.number()), */
+});
 
-type CreateGameBodySchema = z.infer<typeof createGameBodySchema>
+type CreateGameBodySchema = z.infer<typeof createGameBodySchema>;
 
 @Controller('games')
 export class CreateGameController {
@@ -24,32 +24,32 @@ export class CreateGameController {
   @HttpCode(201)
   async createGame(@Body() body: CreateGameBodySchema) {
     try {
-      const { success, error } = createGameBodySchema.safeParse(body)
+      const { success, error } = createGameBodySchema.safeParse(body);
       if (!success) {
-        throw new BadRequestException(error.format())
+        throw new BadRequestException(error.format());
       }
-      const { drawDate, drawNumbers } = body
+      const { drawDate /* , drawNumbers */ } = body;
       const game = await this.prisma.game.create({
         data: {
-          drawDate: new Date(drawDate),
-          drawnNumbers: drawNumbers,
-        },
-      })
-      return { game, message: 'Jogo criado com sucesso' }
+          drawDate: new Date(drawDate).toISOString().split("t")[0] // salvar apenas data
+          /* drawnNumbers: drawNumbers, */
+        }
+      });
+      return { game, message: 'Jogo criado com sucesso' };
     } catch (error) {
-      console.error(error)
-      throw new BadRequestException('Falha ao criar o jogo')
+      console.error(error);
+      throw new BadRequestException('Falha ao criar o jogo');
     }
   }
 
   @Get()
   async getAllGames() {
     try {
-      return await this.prisma.game.findMany()
+      return await this.prisma.game.findMany();
     } catch (error) {
       throw new BadRequestException(
-        'Falha ao recuperar os jogos do banco de dados',
-      )
+        'Falha ao recuperar os jogos do banco de dados'
+      );
     }
   }
 }
