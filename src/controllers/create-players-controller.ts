@@ -8,22 +8,21 @@ import {
   NotFoundException,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
-  UsePipes
-} from '@nestjs/common';
-import { ZodValidationPipe } from 'src/pipes/zod-validation-pipes';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { z } from 'zod';
+  UsePipes,
+} from '@nestjs/common'
+import { ZodValidationPipe } from 'src/pipes/zod-validation-pipes'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { z } from 'zod'
 
 const createPlayerBodySchema = z.object({
   name: z.string(),
   cpf: z.string(),
   email: z.string().email(),
-  birthDate: z.string() // validar string
-});
+  birthDate: z.string(), // validar string
+})
 
-type CreatePlayerBodySchema = z.infer<typeof createPlayerBodySchema>;
+type CreatePlayerBodySchema = z.infer<typeof createPlayerBodySchema>
 
 @Controller('players')
 export class PlayersController {
@@ -33,26 +32,26 @@ export class PlayersController {
   @UsePipes(new ZodValidationPipe(createPlayerBodySchema))
   async createPlayer(@Body() body: CreatePlayerBodySchema) {
     try {
-      const { name, cpf, email, birthDate } = body;
+      const { name, cpf, email, birthDate } = body
 
       const playerWithSameEmail = await this.prisma.player.findUnique({
         where: {
-          email
-        }
-      });
+          email,
+        },
+      })
 
       const playerWithSameCpf = await this.prisma.player.findUnique({
         where: {
-          cpf
-        }
-      });
+          cpf,
+        },
+      })
 
       if (playerWithSameEmail) {
-        throw new ConflictException('já existe um jogador com mesmo email');
+        throw new ConflictException('já existe um jogador com mesmo email')
       }
 
       if (playerWithSameCpf) {
-        throw new ConflictException('já existe um jogador com mesmo cpf');
+        throw new ConflictException('já existe um jogador com mesmo cpf')
       }
 
       await this.prisma.player.create({
@@ -60,16 +59,16 @@ export class PlayersController {
           name,
           cpf,
           email,
-          birthDate: new Date(birthDate).toISOString()
-        }
-      });
-      return { message: 'Jogador criado com sucesso' };
+          birthDate: new Date(birthDate).toISOString(),
+        },
+      })
+      return { message: 'Jogador criado com sucesso' }
     } catch (error) {
-      console.error(error);
+      console.error(error)
       if (error instanceof ConflictException) {
-        throw error;
+        throw error
       } else {
-        throw new BadRequestException('Falha ao criar o jogador');
+        throw new BadRequestException('Falha ao criar o jogador')
       }
     }
   }
@@ -77,11 +76,11 @@ export class PlayersController {
   @Get()
   async getAllPlayers() {
     try {
-      return await this.prisma.player.findMany();
+      return await this.prisma.player.findMany()
     } catch (error) {
       throw new BadRequestException(
-        'Falha ao recuperar os Jogadores do banco de dados'
-      );
+        'Falha ao recuperar os Jogadores do banco de dados',
+      )
     }
   }
 
@@ -90,20 +89,20 @@ export class PlayersController {
     try {
       const player = await this.prisma.player.findUnique({
         where: {
-          id
-        }
-      });
+          id,
+        },
+      })
 
       if (!player) {
-        throw new NotFoundException('Jogador não encontrado');
+        throw new NotFoundException('Jogador não encontrado')
       }
 
-      return player;
+      return player
     } catch (error) {
       if (error instanceof NotFoundException) {
-        throw error;
+        throw error
       } else {
-        throw new BadRequestException('Falha ao buscar o jogador pelo ID');
+        throw new BadRequestException('Falha ao buscar o jogador pelo ID')
       }
     }
   }
@@ -113,26 +112,26 @@ export class PlayersController {
     try {
       const player = await this.prisma.player.findUnique({
         where: {
-          id
-        }
-      });
+          id,
+        },
+      })
 
       if (!player) {
-        throw new NotFoundException('Jogador não encontrado');
+        throw new NotFoundException('Jogador não encontrado')
       }
 
       await this.prisma.player.delete({
         where: {
-          id
-        }
-      });
+          id,
+        },
+      })
 
-      return { message: 'Jogador deletado com sucesso' };
+      return { message: 'Jogador deletado com sucesso' }
     } catch (error) {
       if (error instanceof NotFoundException) {
-        throw error;
+        throw error
       } else {
-        throw new BadRequestException('Falha ao deletar o jogador');
+        throw new BadRequestException('Falha ao deletar o jogador')
       }
     }
   }

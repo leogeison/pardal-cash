@@ -24,7 +24,6 @@ model Ticket {
   playerId       Int
   purchaseDate   DateTime
   bets           Json
-  amountPaid     Float
   game           Game       @relation(fields: [gameId], references: [id])
   player         Player     @relation(fields: [playerId], references: [id])
   payments       Payment[]
